@@ -1,5 +1,15 @@
+.vscode
+.idea
+
+*.DS_Store
+
 node_modules
-.DS_Store
 dist
 dist-ssr
 *.local
+
+*.pyc
+*.sqlite3
+*migrations*
+*.env/
+*custom*
