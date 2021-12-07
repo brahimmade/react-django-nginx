@@ -33,10 +33,10 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd ./frontend
+          cd ./frontend/react
           npm ci
 
       - name: Run Eslint & Prettier
         run: |
-          cd ./frontend
+          cd ./frontend/react
           npm run style:all

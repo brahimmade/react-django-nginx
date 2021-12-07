@@ -9,13 +9,15 @@
     "style:lint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "style:prettier": "prettier --check '**/*.{js,jsx,ts,tsx}'",
     "make-pretty": "prettier --write '**/*.{js,jsx,ts,tsx}'",
-    "prepare": "cd .. && husky install"
+    "prepare": "cd ../.. && husky install"
   },
   "dependencies": {
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
+    "@types/babel__core": "^7.1.16",
+    "@types/node": "^16.11.11",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",

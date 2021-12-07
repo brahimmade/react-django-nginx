@@ -1,0 +1,20 @@
+# IDE
+.vscode
+
+# Git
+.gitignore
+
+# Python
+*.log
+*.pot
+*.pyc
+__pycache__/
+
+# Static
+**/static/*
+
+# Environment
+.env/
+
+# Local scripts
+start.sh

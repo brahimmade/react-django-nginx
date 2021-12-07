@@ -1,30 +1,64 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:13-alpine
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+
   django:
     build:
       context: ./backend
-    command: >
-      sh -c "python manage.py wait_for_db &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
-    ports:
-      - 8000:8000
+    restart: always
+    expose:
+      - 8000
     volumes:
-      - ./backend/djangoapp:/djangoapp
+      - django-static-volume:/usr/src/app/static
     environment:
-      - SECRET_KEY=devsecretkey
-      - DEBUG=1
       - DB_HOST=db
-      - DB_NAME=devdb
-      - DB_USER=devuser
-      - DB_PASS=devpw
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+    command: gunicorn djangoapp.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - db
 
-  db:
-    image: postgres:13-alpine
+  react:
+    build:
+      context: ./frontend
+      # args:
+      #   - API_SERVER=${API_SERVER}
+    stdin_open: true
+    expose:
+      - 3000
+    volumes:
+      - react-static-volume:/usr/src/app/dist/static
     environment:
-      - POSTGRES_DB=devdb
-      - POSTGRES_USER=devuser
-      - POSTGRES_PASSWORD=devpw
+      - API_SERVER=${API_SERVER}
+    command: serve -s dist -l 3000
+    depends_on:
+      - django
+
+  nginx:
+    build:
+      context: ./nginx
+    restart: always
+    volumes:
+      - django-static-volume:/usr/src/app/django/static
+      - react-static-volume:/usr/src/app/react/static
+    ports:
+      - 80:80
+    depends_on:
+      - react
+
+volumes:
+  postgres-data:
+  django-static-volume:
+  react-static-volume:

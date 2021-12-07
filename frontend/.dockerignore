@@ -1,0 +1,11 @@
+# Git
+.gitignore
+
+# Third party
+**/node_modules
+
+# .env
+.eslintignore
+.eslintrc
+.prettierignore
+.prettierrc

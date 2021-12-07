@@ -12,7 +12,9 @@
 
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    // "project": ["frontend/react/tsconfig.json"]
     "project": ["./tsconfig.json"]
+    // "tsconfigRootDir": "/home/zero/code/templates/react-django-nginx/frontend/react"
   },
 
   "rules": {
