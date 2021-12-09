@@ -1,0 +1,80 @@
+html {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font-family: 'Bubbler One', sans-serif;
+  font-family: 'Ubuntu Mono', monospace;
+  flex-direction: column;
+  overflow: hidden;
+  display: flex;
+  flex-grow: 1;
+}
+
+#root {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+}
+
+.canvas {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-grow: 1;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.canvas > h1 {
+  font-size: 10em;
+  animation-name: textimpulse;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: 1s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.circle {
+  border-radius: 50%;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  opacity: 0.5;
+}
+
+.circle:hover {
+  z-index: 1;
+  opacity: 1;
+}
+
+.circle > svg > text {
+  fill: whitesmoke;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.circle > svg > text:hover {
+  fill: black;
+  cursor: pointer;
+}
+
+@keyframes textimpulse {
+  from {
+    font-size: 10em;
+  }
+  to {
+    font-size: 8em;
+  }
+}

@@ -18,10 +18,7 @@ RUN apk update && \
 
 COPY ./react .
 
-ARG API_SERVER
-ENV REACT_API_SERVER=${API_SERVER}
-RUN REACT_API_SERVER=${API_SERVER} \
-    npm run build
+RUN npm run build
 
 # ----------------------------------
 # FINAL

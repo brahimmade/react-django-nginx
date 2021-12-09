@@ -5,7 +5,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/bastiannispel/react-django-nginx)
 ![GitHub repo size](https://img.shields.io/github/repo-size/bastiannispel/react-django-nginx)
 
-This is a barebone project template for [React](https://reactjs.org/) apps using [Vite](https://vitejs.dev/) as a build tool and the [airbnb configuration for eslint](https://www.npmjs.com/package/eslint-config-airbnb) as well as [prettier](https://prettier.io/) for code formatting and [husky](https://github.com/typicode/husky) to setup git hooks. It comes with a basic github workflow that runs eslint and checks the formatting of the code.
+This is a barebone project template for a fullstack web application with a [Typescript](https://www.typescriptlang.org/) [React](https://reactjs.org/) frontend using [Vite](https://vitejs.dev/) as build tool and the [airbnb configuration for eslint](https://www.npmjs.com/package/eslint-config-airbnb) as well as [prettier](https://prettier.io/) for code formatting and [husky](https://github.com/typicode/husky) to setup git hooks. The backend technology is provided by [Django](https://www.djangoproject.com/). It comes with a basic github workflow that runs eslint and checks the formatting of the code. It is setup with [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to make the deployment easier and quicker.
 
 # A) Installation
 
@@ -37,114 +37,105 @@ If you're using VSCode consider to use the following extensions for this project
 1. Use this template to create a repository `"Use this template"`
 2. Clone your repository to your development environment `git clone ...`
 3. Create a `.env` file at the top level of your project (see `.env.sample`)
-4. Navigate to your projects top level folder and run `docker-compose build`
-5. After the build has finished run `docker-compose up` to start the container network
-6. Visit `http://localhost:8000/` in your browser to see the development build of the project
+4. Follow a workflow to setup the project environment :smile:
 
 # B) Workflow
 
-### Prerequisites
-
-1. Basic understanding of docker container and docker-compose
-2. Know how to manage volumes and images
-
 ### 1) Local
 
-This Method is meant for frontend or backend only development purposes where no connection between the server and client is required.
+If you want to omit the use of docker and docker-compose during your development you can setup the environment locally and follow the steps below.
 
 #### Frontend
 
-1.  Navigate to `frontend` and run `npm install`
-2.  Run `npm husky install` to setup husky git hooks
-3.  Start Frontend at `localhost:3000` with:
+###### Get started
+
+1.  Navigate to `frontend/react` and run
+
+        npm install
+
+2.  Start Frontend at `localhost:3000` with:
 
         npm run dev
 
+###### Commands
+
+Run development server at _localhost:3000_ `npm run dev`
+
+Run production build `npm run build`
+
+Serve build at _localhost:5000_ `npm run serve`
+
+Run eslint `npm run style:lint`
+
+Run prettier `npm run style:prettier`
+
+Run code formatting `npm run make-pretty`
+
+Run all style checks `npm run style:all`
+
 #### Backend
 
-1.  Navigate to `backend`
-2.  Start your local postgresql database
-3.  Make sure the settings in your `.env` match those of your db
-4.  Start Backend at `localhost:8000` with:
+###### Get started
+
+1.  Setup your local postgresql database
+2.  Make sure the settings in your `.env` match those of your db
+3.  Navigate to `backend` and run
 
         ./start.sh
 
-This command will do several things to setup a local environment.
+###### Commands
 
-1. Creates a virutal python environment
-2. Pip installs the local requirements
-3. Makes migrations and migrate
-4. Exports the information given in the .env
-5. Finally starts the server
+    start.sh
 
-### 2) Development
+This script is useful for two situations:
 
-Build all services that need to be built:
+1.  When you want to _create a virtual environment_, _install requirements.txt_, make migrations and migrate them
+2.  When your local environment is setup and you want to _start the django server_ at `localhost:8000`
 
-    docker-compose -f docker-compose.yml build
+<!-- end of the list -->
 
-Start all services with a container network at
+    loadenv.sh
 
-_django:_ `http://localhost:8000/` _react_`http://localhost:3000/`:
+**Important:** This command will load the top level `.env` variables and should be used in combination with any `manage.py` script and command e.g. if you want to create a new django app navigate to `backend/djangoapp/` and run:
 
-    docker-compose -f docker-compose.yml up
+    source ./loadenv.sh && python manage.py startapp api
 
-### 3) Staging / Production
+#### Proxy
 
-Build all services that need to be built:
+This project uses [Vite](https://vitejs.dev/) as a build tool for the frontend and also for the configuration of a local proxy server to enable the connection between frontend and backend. If you want to add any new endpoints you have to also setup those at `frintend/react/vite.config.ts`
 
-    docker-compose -f docker-compose-deploy.yml build
+### 2) Staging / Production
 
-Start all services with a container network at `127.0.0.1`
+###### Get started
 
-    docker-compose -f docker-compose-deploy.yml up
+1. Setup the `.env` file at the top level of your project
+2. Run `docker-compose build` to download all base images and build your project
+3. Run `docker-compose run` to start the project on your local machine in a production similar fashion
 
-# C) Commands
-
-### Docker Compose
-
-Specify the docker-compose file for each command with `-f docker-compose-file.yml`
+###### Commands
 
 `Build` docker container with docker-compose
 
-    docker-compose -f docker-compose-file.yml build
+    docker-compose build
 
 `Start` container network with docker-compose
 
-    docker-compose -f docker-compose-file.yml up
+    docker-compose up
 
 Run a one-time `command` against a service e.g.
 
-    docker-compose -f docker-compose-file.yml  run --rm django sh -c "python manage.py startapp core"
+    docker-compose run --rm django sh -c "python manage.py startapp core"
 
 `Stop` container network
 
-    docker-compose -f docker-compose-file.yml down
+    docker-compose down
 
 `Clear` volumes
 
-    docker-compose -f docker-compose-deploy.yml down --volumes
-
-### React
-
-Run Eslint
-
-    npm run style:lint
-
-Run Prettier
-
-    npm run style:prettier
-
-Run Code Formatting
-
-    npm run make-pretty
-
-Run All Style Checks
-
-    npm run style:all
+    docker-compose down --volumes
 
 #
 
-#
+## Tested and developed under Ubuntu 20.04
 
 You can find this template at https://github.com/bastiannispel/react-django-nginx

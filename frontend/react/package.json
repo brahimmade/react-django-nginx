@@ -12,6 +12,7 @@
     "prepare": "cd ../.. && husky install"
   },
   "dependencies": {
+    "easy-peasy": "^5.0.4",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },

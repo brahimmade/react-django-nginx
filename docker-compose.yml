@@ -33,15 +33,11 @@ services:
   react:
     build:
       context: ./frontend
-      # args:
-      #   - API_SERVER=${API_SERVER}
     stdin_open: true
     expose:
       - 3000
     volumes:
       - react-static-volume:/usr/src/app/dist/static
-    environment:
-      - API_SERVER=${API_SERVER}
     command: serve -s dist -l 3000
     depends_on:
       - django

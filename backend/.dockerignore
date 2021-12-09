@@ -18,3 +18,4 @@ __pycache__/
 
 # Local scripts
 start.sh
+loadenv.sh

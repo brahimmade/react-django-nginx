@@ -1,5 +1,7 @@
 #!/bin/bash
-export $(grep -v '^#' ../.env | xargs)
+set -a
+source ../.env
+set +a
 
 if [ ! -d ".env" ]
 then
@@ -10,7 +12,7 @@ then
   
   cd ./djangoapp || exit
   python manage.py makemigrations
-  python manage.py makemigrations core
+  python manage.py makemigrations core api
   cd .. || exit
   deactivate
 fi
