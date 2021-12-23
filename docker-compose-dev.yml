@@ -14,10 +14,12 @@ services:
   django:
     build:
       context: ./backend
+      target: "base"
     restart: always
     expose:
       - 8000
     volumes:
+      - ./backend/djangoapp:/usr/src/app
       - django-static-volume:/usr/src/app/static
     environment:
       - DB_HOST=db
@@ -26,19 +28,21 @@ services:
       - DB_PASS=${DB_PASS}
       - SECRET_KEY=${SECRET_KEY}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-    command: gunicorn djangoapp.wsgi:application --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
       - db
 
   react:
     build:
       context: ./frontend
+      target: "base"
     stdin_open: true
     expose:
       - 3000
+    command: npm run dev
     volumes:
-      - react-static-volume:/usr/src/app/dist/static
-    command: serve -s dist -l 3000
+      - ./frontend/react:/usr/src/app
+      - /usr/src/node_modules
     depends_on:
       - django
 
@@ -48,7 +52,6 @@ services:
     restart: always
     volumes:
       - django-static-volume:/usr/src/app/django/static
-      - react-static-volume:/usr/src/app/react/static
     ports:
       - 80:80
     depends_on:
@@ -57,4 +60,3 @@ services:
 volumes:
   postgres-data:
   django-static-volume:
-  react-static-volume:

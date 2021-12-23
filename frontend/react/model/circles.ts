@@ -21,16 +21,16 @@ const circles: CirclesModel = {
   }),
 
   loadCircles: thunk(async (actions) => {
-    return fetch('/api/')
+    return fetch('/api/circles')
       .then((res) => res.json())
       .then((res) => actions.setItems(res as Circle[]));
   }),
 
   saveCircle: thunk(async (actions, payload) => {
-    return post({ url: '/api/', payload });
+    return post({ url: '/api/circles', payload });
   }),
   deleteCircle: thunk(async (actions, payload) => {
-    return remove({ url: `/api/${payload}` });
+    return remove({ url: `/api/circles/${payload}` });
   }),
 
   onRequest: thunkOn(

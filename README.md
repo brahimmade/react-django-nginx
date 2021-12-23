@@ -14,13 +14,6 @@ This is a barebone project template for a fullstack web application with a [Type
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-### Database
-
-If you want to use the local setup for django you have to install [postgresql](https://www.postgresql.org/) on your machine and setup a database to host loacally.
-
-- [PostgreSQL](https://www.postgresql.org/download/linux/ubuntu/)
-- [pgAdmin](https://www.pgadmin.org/download/pgadmin-4-apt/)
-
 ### Extensions
 
 If you're using VSCode consider to use the following extensions for this project:
@@ -43,7 +36,7 @@ If you're using VSCode consider to use the following extensions for this project
 
 ### 1) Local
 
-If you want to omit the use of docker and docker-compose during your development you can setup the environment locally and follow the steps below.
+In order to use development related pip or node module you will have to install them locally in the appropriate directory.
 
 #### Frontend
 
@@ -53,17 +46,7 @@ If you want to omit the use of docker and docker-compose during your development
 
         npm install
 
-2.  Start Frontend at `localhost:3000` with:
-
-        npm run dev
-
 ###### Commands
-
-Run development server at _localhost:3000_ `npm run dev`
-
-Run production build `npm run build`
-
-Serve build at _localhost:5000_ `npm run serve`
 
 Run eslint `npm run style:lint`
 
@@ -77,62 +60,29 @@ Run all style checks `npm run style:all`
 
 ###### Get started
 
-1.  Setup your local postgresql database
-2.  Make sure the settings in your `.env` match those of your db
-3.  Navigate to `backend` and run
+1.  Navigate to `backend` and run
 
-        ./start.sh
+        python3 -m venv venv
 
-###### Commands
+2.  Activate the virtual environment
 
-    start.sh
+        source ./venv/bin/activate
 
-This script is useful for two situations:
+3.  Install pip modules with
 
-1.  When you want to _create a virtual environment_, _install requirements.txt_, make migrations and migrate them
-2.  When your local environment is setup and you want to _start the django server_ at `localhost:8000`
+        pip install -r requirements.txt
 
-<!-- end of the list -->
-
-    loadenv.sh
-
-**Important:** This command will load the top level `.env` variables and should be used in combination with any `manage.py` script and command e.g. if you want to create a new django app navigate to `backend/djangoapp/` and run:
-
-    source ./loadenv.sh && python manage.py startapp api
-
-#### Proxy
-
-This project uses [Vite](https://vitejs.dev/) as a build tool for the frontend and also for the configuration of a local proxy server to enable the connection between frontend and backend. If you want to add any new endpoints you have to also setup those at `frintend/react/vite.config.ts`
-
-### 2) Staging / Production
+### 2) Development
 
 ###### Get started
 
 1. Setup the `.env` file at the top level of your project
-2. Run `docker-compose build` to download all base images and build your project
-3. Run `docker-compose run` to start the project on your local machine in a production similar fashion
+2. Run `docker-compose -f docker-compose-dev.yml build` to download all base images and build your project
+3. Run `docker-compose -f docker-compose-dev.yml up` to create a network and spin up the services
 
-###### Commands
+### 3) Staging / Production
 
-`Build` docker container with docker-compose
-
-    docker-compose build
-
-`Start` container network with docker-compose
-
-    docker-compose up
-
-Run a one-time `command` against a service e.g.
-
-    docker-compose run --rm django sh -c "python manage.py startapp core"
-
-`Stop` container network
-
-    docker-compose down
-
-`Clear` volumes
-
-    docker-compose down --volumes
+Specify `-f docker-compose-prod.yml`
 
 #
 
